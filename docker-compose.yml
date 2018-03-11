@@ -1,0 +1,38 @@
+version: '1'
+
+service:
+  web:
+    image: .
+    container_name: web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./src:/var/www/html
+    links:
+      - db
+  db:
+    image: mysql
+    container_name: db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    environment:
+       MYSQL_DATABASE: root
+       MYSQL_ROOT_PASSWORD: 0987237533
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+     - PMA_ARBITRARY=1
+     - PMA_HOST=db
+     - PMA_USER=root
+     - PMA_PASSWORD=0987237533
+    ports:
+     - 8080:80
+    volumes:
+     - /sessions
+  redis:
+    image: redis
+    container_name: redis
