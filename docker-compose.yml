@@ -22,24 +22,17 @@ services:
     environment:
        MYSQL_DATABASE: root
        MYSQL_ROOT_PASSWORD: imfkingenius
-  # phpmyadmin:
-  #   image: phpmyadmin/phpmyadmin
-  #   container_name: phpmyadmin
-  #   environment:
-  #    - PMA_ARBITRARY=1
-  #    - PMA_HOST=db
-  #    - PMA_USER=root
-  #    - PMA_PASSWORD=0987237533
-  #   ports:
-  #    - 8080:80
-  #   volumes:
-  #    - /sessions
   redis:
     image: redis:latest
     container_name: redis
     ports:
        - "6379:6379"
   php:
-    image: php:7-fpm
+    image: php
+    build:
+      context: php/
+      args:
+        TIMEZONE: Asia/Taipei
     volumes:
       - ./src:/var/www/html
+      - ./logs/symfony:/var/www/symfony/app/logs
