@@ -36,3 +36,5 @@ services:
     volumes:
       - ./src:/var/www/html
       - ./logs/symfony:/var/www/symfony/app/logs
+    links:
+      - db
