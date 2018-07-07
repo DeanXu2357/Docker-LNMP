@@ -1,16 +1,19 @@
-version: '2'
+version: '3'
 
 services:
   web:
     image: web
-    build: web/
+    build:
+      context: web/
+      args:
+        TIMEZONE: Asia/Taipei
     container_name: web
     ports:
       - "666:80"
     volumes:
       - ./src:/var/www/html
     links:
-      - db
+      # - db
       - php
   db:
     image: mysql:latest
@@ -21,7 +24,7 @@ services:
       - ./mysql-data:/var/lib/mysql
     environment:
        MYSQL_DATABASE: root
-       MYSQL_ROOT_PASSWORD: imfkingenius
+       MYSQL_ROOT_PASSWORD: 
   redis:
     image: redis:latest
     container_name: redis
@@ -36,5 +39,5 @@ services:
     volumes:
       - ./src:/var/www/html
       - ./logs/symfony:/var/www/symfony/app/logs
-    links:
-      - db
+    # links:
+    #   - db
